@@ -7,49 +7,45 @@
 
 using namespace std;
 
-bool bruteforce(string &pat, string &txt){
+bool bruteforce(string pat, string txt){
     int p_len = pat.size(), t_len = txt.size();
 
-    int i = 0;
-
     for (int i = 0; i <= t_len - p_len; i++) {
-        int j = 0, k = 0;
+        int j;
         bool check = true;
 
-        while(j < p_len){
+        for (j = 0; j < p_len; j++){
             if(pat[j] == '\\'){
                 check = false;
                 j++;
                 continue;
             }
-            if(check == true){
-                if(pat[j] == '.'){
-                    j++;
+            if (check == true){
+                if (pat[j] == '?') {
                     continue;
-                }
-                if(pat[j] == '*'){
-                    if(j == p_len - 1){
-                        return true;
+                } 
+                else if (pat[j] == '*') {
+                    while (pat[j+1] == '*' || pat[j+1] == '?') {
+                        j++;
                     }
-                    while(txt[i + j + k] != pat[j + 1]){
-                        k++;
-                        if(i + j + k >= t_len){
-                            return false;
+                    for (int k = 0; i + j + k < t_len; k++) {
+                        if (bruteforce((pat.substr(j+1)), (txt.substr(i+j+k)))) {
+                            return true;
                         }
                     }
-                    j++;
-                    continue;
-                }
+                    return false;
+                } 
+            } 
+            else if (txt[i + j] != pat[j]){
+                break;
             }
-            
-            if (txt[i + j + k] != pat[j]) break;
-            j++;
         }
-        
-        if(j == p_len){
+
+        if (j == p_len){
             return true;
         }
     }
+
     return false;
 }
 
