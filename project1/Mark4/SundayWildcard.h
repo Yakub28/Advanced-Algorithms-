@@ -36,7 +36,7 @@ bool sunday(string &pat, string &txt) {
                 continue;
             }
             if(check == true){
-                if(pat[j] == '.'){
+                if(pat[j] == '?'){
                     j++;
                     continue;
                 }

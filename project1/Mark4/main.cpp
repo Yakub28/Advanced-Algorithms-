@@ -9,8 +9,8 @@
 using namespace std;
 
 int main(){
-    string text     = "helllllo world";
-    string pattern  = "he*lo";
+    string text     = "he*lo world";
+    string pattern  = "he\\*lo";
 
     bool ans1 = bruteforce(pattern, text);
     bool ans2 = sunday(pattern, text);
@@ -31,7 +31,7 @@ int main(){
     assert(bruteforce(pattern6, text6) == true);
 
 
-    string pattern9 = "he*llo", text9 = "helloo world";
+    string pattern9 = "he\\*llo", text9 = "he*lloo world";
     assert(bruteforce(pattern9, text9) == true);
 
     return 0;
