@@ -19,46 +19,41 @@ vector<int> preprocess(string &pat) {
     return shift;
 }
 
-bool sunday(string &pat, string &txt) {
+bool sunday(string pat, string txt) {
     int p_len = pat.length(), t_len = txt.length();
 
     vector<int> shift = preprocess(pat);
 
     int i = 0;
     while (i <= t_len - p_len) {
-        int j = 0, k = 0;
-        bool check = true;
+        int j, k = 0;
 
-        while (j < p_len) {
+        for (j = 0; j < p_len; j++){
             if(pat[j] == '\\'){
-                check = false;
                 j++;
+                k++;
+                if (txt[i + j - k] != pat[j]) break;
                 continue;
             }
-            if(check == true){
-                if(pat[j] == '?'){
+            if (pat[j] == '?') {
+                continue;
+            } 
+            else if (pat[j] == '*') {
+                while (pat[j+1] == '*' || pat[j+1] == '?') {
                     j++;
-                    continue;
                 }
-                if(pat[j] == '*'){
-                    if(j == p_len - 1){
+                for (int y = 0; i + j + y < t_len; y++) {
+                    if (sunday((pat.substr(j+1)), (txt.substr(i + j + y - k)))) {
                         return true;
                     }
-                    while(txt[i + j + k] != pat[j + 1]){
-                        k++;
-                        if(i + j + k >= t_len){
-                            return false;
-                        }
-                    }
-                    j++;
-                    continue;
                 }
-            }
-            if (txt[i + j + k] != pat[j]) break;
-            j++;
+                return false;
+            } 
+
+            if (txt[i + j - k] != pat[j]) break;
         }
 
-        if (j == p_len) {
+        if (j == p_len){
             return true;
         }
 

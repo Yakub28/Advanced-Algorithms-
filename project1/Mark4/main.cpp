@@ -25,14 +25,17 @@ int main(){
     
     string pattern4 = "he*lo", text4 = "helllllo world";
     assert(bruteforce(pattern4, text4) == true);
+    assert(sunday(pattern4, text4) == true);
 
 
     string pattern6 = "he*llo", text6 = "hello world";
     assert(bruteforce(pattern6, text6) == true);
+    assert(sunday(pattern6, text6) == true);
 
 
     string pattern9 = "he\\*llo", text9 = "he*lloo world";
     assert(bruteforce(pattern9, text9) == true);
+    assert(sunday(pattern9, text9) == true);
 
     return 0;
 }
