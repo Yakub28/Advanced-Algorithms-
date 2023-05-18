@@ -12,14 +12,14 @@
 
 using std::chrono::nanoseconds;
 
-constexpr int step = 10;
-constexpr int maxlen = 100;
-constexpr int times = 10;
-
 int main()
 {
+    const int tableSize = 100;
+
     std::cout << "Insert Time" << std::endl;
-    std::cout << "Seperate Chaining"
+    std::cout << "Load Factor"
+              << " | "
+              << "Seperate Chaining"
               << " | "
               << "Linear Probing"
               << " | "
@@ -29,32 +29,34 @@ int main()
     nanoseconds lpht_insert_time(0);
     nanoseconds dhht_insert_time(0);
 
-    SeparateChainingHashTable<string, int> SCHashTable(10);
-    LinearProbingHashTable<string, int> LPHashTable(10);
-    DoubleHashingHashTable<string, int> DHHashTable(10);
+    SeparateChainingHashTable<string, int> SCHashTable1(tableSize);
+    LinearProbingHashTable<string, int> LPHashTable1(tableSize);
+    DoubleHashingHashTable<string, int> DHHashTable1(tableSize);
 
-    for (int t = 0; t < times; t++)
+    for (int t = 0; t < tableSize - (0.04 * tableSize); t++)
     {
         auto begin = std::chrono::steady_clock::now();
-        SCHashTable.insert("key" + std::to_string(t), t);
+        SCHashTable1.insert("key" + std::to_string(t), t);
         auto end = std::chrono::steady_clock::now();
-        scht_insert_time += end - begin;
+        scht_insert_time = end - begin;
 
         begin = std::chrono::steady_clock::now();
-        LPHashTable.insert("key" + std::to_string(t), t);
+        LPHashTable1.insert("key" + std::to_string(t), t);
         end = std::chrono::steady_clock::now();
-        lpht_insert_time += end - begin;
+        lpht_insert_time = end - begin;
 
         begin = std::chrono::steady_clock::now();
-        DHHashTable.insert("key" + std::to_string(t), t);
+        DHHashTable1.insert("key" + std::to_string(t), t);
         end = std::chrono::steady_clock::now();
-        dhht_insert_time += end - begin;
+        dhht_insert_time = end - begin;
+
+        std::cout << (double)t / tableSize << " | " << scht_insert_time.count() << " | " << lpht_insert_time.count() << " | " << dhht_insert_time.count() << std::endl;
     }
 
-    std::cout << scht_insert_time.count() / times << " | " << lpht_insert_time.count() / times << " | " << dhht_insert_time.count() / times << std::endl;
-
     std::cout << "Search Time" << std::endl;
-    std::cout << "Seperate Chaining"
+    std::cout << "Load Factor"
+              << " | "
+              << "Seperate Chaining"
               << " | "
               << "Linear Probing"
               << " | "
@@ -64,25 +66,32 @@ int main()
     nanoseconds lpht_search_time(0);
     nanoseconds dhht_search_time(0);
 
-    for (int t = 0; t < times; t++)
+    SeparateChainingHashTable<string, int> SCHashTable2(tableSize);
+    LinearProbingHashTable<string, int> LPHashTable2(tableSize);
+    DoubleHashingHashTable<string, int> DHHashTable2(tableSize);
+
+    for (int t = 0; t < tableSize - (0.04 * tableSize); t++)
     {
+        SCHashTable2.insert("key" + std::to_string(t), t);
         auto begin = std::chrono::steady_clock::now();
-        SCHashTable.search("key" + std::to_string(t));
+        SCHashTable2.search("key" + std::to_string(t));
         auto end = std::chrono::steady_clock::now();
-        scht_search_time += end - begin;
+        scht_search_time = end - begin;
 
+        LPHashTable2.insert("key" + std::to_string(t), t);
         begin = std::chrono::steady_clock::now();
-        LPHashTable.search("key" + std::to_string(t));
+        LPHashTable2.search("key" + std::to_string(t));
         end = std::chrono::steady_clock::now();
-        lpht_search_time += end - begin;
+        lpht_search_time = end - begin;
 
+        DHHashTable2.insert("key" + std::to_string(t), t);
         begin = std::chrono::steady_clock::now();
-        DHHashTable.search("key" + std::to_string(t));
+        DHHashTable2.search("key" + std::to_string(t));
         end = std::chrono::steady_clock::now();
-        dhht_search_time += end - begin;
+        dhht_search_time = end - begin;
+
+        std::cout << (double)t / tableSize << " | " << scht_search_time.count() << " | " << lpht_search_time.count() << " | " << dhht_search_time.count() << std::endl;
     }
-
-    std::cout << scht_search_time.count() / times << " | " << lpht_search_time.count() / times << " | " << dhht_search_time.count() / times << std::endl;
-
+    
     return 0;
 }
