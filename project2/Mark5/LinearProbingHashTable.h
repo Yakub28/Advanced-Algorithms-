@@ -64,7 +64,10 @@ public:
         }
 
         if (table[index].key == key)
-            throw invalid_argument("Duplicate key!");
+        {
+            table[index].value = value;
+            return;
+        }
 
         table[index].key = key;
         table[index].value = value;

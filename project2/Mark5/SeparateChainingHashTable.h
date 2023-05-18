@@ -22,8 +22,6 @@ private:
     vector<list<KeyValuePair>> table;
     size_t capacity;
 
-    typename list<KeyValuePair>::iterator it;
-
     size_t hashKey(const Key &key) const
     {
         return hash<Key>{}(key) % capacity;
@@ -39,7 +37,7 @@ public:
     {
         size_t index = hashKey(key);
 
-        for (it = table[index].begin(); it != table[index].end(); ++it)
+        for (auto it = table[index].begin(); it != table[index].end(); ++it)
         {
             if (it->key == key)
             {
@@ -55,7 +53,7 @@ public:
     {
         size_t index = hashKey(key);
         list<KeyValuePair> &entry = table[index];
-        for (it = entry.begin(); it != entry.end(); ++it)
+        for (auto it = entry.begin(); it != entry.end(); ++it)
         {
             if (it->key == key)
             {
@@ -69,7 +67,7 @@ public:
     {
         size_t index = hashKey(key);
         list<KeyValuePair> &entry = table[index];
-        for (it = entry.begin(); it != entry.end(); ++it)
+        for (auto it = entry.begin(); it != entry.end(); ++it)
         {
             if (it->key == key)
             {
