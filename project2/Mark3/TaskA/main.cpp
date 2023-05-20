@@ -15,8 +15,8 @@ using namespace std;
 int main()
 {
     string word, textLine;
-    ifstream wordFile("./words.txt"), textFile("./text.txt");
-    ofstream searchResultsFile("results_search.txt"), inputResultsFile("results_input.txt");
+    ifstream wordFile("./data/words.txt"), textFile("./data/text.txt");
+    ofstream searchResultsFile("./data/results_search.txt"), inputResultsFile("./data/results_input.txt");
 
     double totalNaiveTime(0), totalTreeTime(0), totalTrieTime(0), totalHashMapTime(0), dictionaryNaiveTime(0), dictionaryTreeTime(0), dictionaryTrieTime(0), dictionaryHashMapTime(0);
 
@@ -111,12 +111,12 @@ int main()
         {
             if (*it == word)
             {
-            break;
+                break;
             }
         }
         QueryPerformanceCounter(&end);
         totalNaiveTime += (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-            // BBST
+        // BBST
         QueryPerformanceCounter(&start);
         tree->search(tree, word);
         QueryPerformanceCounter(&end);
@@ -144,5 +144,5 @@ int main()
 
     wordFile.close();
     textFile.close();
-return 0;
+    return 0;
 }
