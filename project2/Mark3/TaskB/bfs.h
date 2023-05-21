@@ -53,11 +53,13 @@ public:
         start->visited = true;
         queue.push(start);
 
+        // Perform BFS traversal
         while (!queue.empty())
         {
             Node* current_node = queue.front();
             queue.pop();
 
+            // Traverse all adjacent nodes of the current node
             for (auto node : current_node->edge)
             {
                 if (!node->visited)
@@ -76,6 +78,7 @@ public:
     {
         Node* winner = players_pos[0];
 
+        // Compute the time taken for each player to reach the destination
         for (auto n : players_pos)
         {
             Node* node = n;
@@ -86,13 +89,16 @@ public:
                 node = node->prev;
             }
 
+            // Compute the time taken based on the player's speed
             for (auto x : route)
             {
                 n->time += 60 / n->speed;
             }
 
+            // Update the winner based on the minimum time
             winner = winner->time < n->time ? winner : n;
 
+            // Print player's information and path taken
             cout << "Player: " << n->player << " has left labyrinth, starting from point: " << route[0]->name 
                 << ", in " << n->time << " minutes, with speed " << n->speed << " seconds" << endl;
 
@@ -104,6 +110,7 @@ public:
             cout << endl;
         }
 
+        // Print the winner's information
         cout << "-------------------------------------------------------------------------------" << endl;
         cout << "Player: " << winner->player << " has won with time: " << winner->time << " minutes taken" << endl;
     }

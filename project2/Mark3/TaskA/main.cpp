@@ -14,15 +14,18 @@ using namespace std;
 
 int main()
 {
+    // Open files for reading and writing
     string word, textLine;
     ifstream wordFile("./data/words.txt"), textFile("./data/text.txt");
     ofstream searchResultsFile("./data/results_search.txt"), inputResultsFile("./data/results_input.txt");
 
-    double totalNaiveTime(0), totalTreeTime(0), totalTrieTime(0), totalHashMapTime(0), dictionaryNaiveTime(0), dictionaryTreeTime(0), dictionaryTrieTime(0), dictionaryHashMapTime(0);
-
+    // Variables to track timing information
+    double totalNaiveTime(0), totalTreeTime(0), totalTrieTime(0), totalHashMapTime(0);
+    double dictionaryNaiveTime(0), dictionaryTreeTime(0), dictionaryTrieTime(0), dictionaryHashMapTime(0);
     vector<double> inputTimings{0, 0, 0, 0};
     vector<double> searchTimings{0, 0, 0, 0};
 
+    // Data structures for different algorithms
     BBST *tree = new BBST("a");
     Trie trie;
     HashMap hashMap;
@@ -78,6 +81,7 @@ int main()
         i++;
         if ((wordCount / divider) * j == i)
         {
+            // Record timings for each algorithm at specific intervals
             inputResultsFile << (wordCount / divider) * j << "		" << dictionaryNaiveTime << "		" << dictionaryTrieTime << "	" << dictionaryTreeTime << "		" << dictionaryHashMapTime << endl;
             j++;
         }
@@ -137,11 +141,13 @@ int main()
         i1++;
         if ((searchCount / divider) * j1 == i1)
         {
+            // Record timings for each algorithm at specific intervals
             searchResultsFile << (searchCount / divider) * j1 << "	" << totalNaiveTime << "	" << totalTrieTime << "	" << totalTreeTime << "	" << totalHashMapTime << endl;
             j1++;
         }
     }
 
+    // Close files
     wordFile.close();
     textFile.close();
     return 0;
