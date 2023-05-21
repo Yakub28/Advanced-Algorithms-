@@ -19,6 +19,7 @@ constexpr int step = 10;
 constexpr int maxlen = 100;
 constexpr int times = 10;
 
+// Measure the execution time of a pattern matching algorithm
 nanoseconds timeit(string &pat, string &txt, vector<int> what(string &, string &)) {
     auto begin = std::chrono::steady_clock::now();
     what(pat, txt);
@@ -28,6 +29,7 @@ nanoseconds timeit(string &pat, string &txt, vector<int> what(string &, string &
     return total;
 }
 
+// Print the results of a pattern matching algorithm
 void printResult(string name, string &pat, string &txt, vector<int> what(string &, string &)){
     cout << name << " : ";
     vector<int> result = what(pat, txt);
@@ -49,13 +51,15 @@ int main(){
         << "Rabin Karp" << " | "
         << "Gusfield Z" << std::endl;
 
+    // Variables to track the total execution time for each algorithm
     nanoseconds bruteforce_time(0);
     nanoseconds sunday_time(0);
     nanoseconds kmp_time(0);
     nanoseconds finite_automata_time(0);
     nanoseconds rabin_karp_time(0);
     nanoseconds gusfield_z_time(0);
-
+    
+    // Repeat the measurements multiple times
     for (int t = 0 ; t < times ; t++) {
         bruteforce_time += timeit(pattern, text, &bruteforce);
         sunday_time += timeit(pattern, text, &sunday);
