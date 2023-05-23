@@ -74,6 +74,7 @@ public:
         if (table[index].key == key)
         {
             table[index].value = value;
+            table[index].isEmpty = false;
             return;
         }
 
